@@ -2,11 +2,10 @@ version: "3.8"
 services:
   db:
     image: mysql
-    hostname: db
     volumes:
-      - ./api/src/main/resources/db/migration:/docker-entrypoint-initdb.d
-    ports:
-      - "3306:3306"
+      - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
+    #ports:
+    #  - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=tlc
@@ -14,10 +13,10 @@ services:
       - MYSQL_PASSWORD=tlc
   etherpad:
     image: etherpad/etherpad:1.8
-    ports:
-      - "9001:9001"
+    #ports:
+    #  - "9001:9001"
     volumes:
-      - ./api/APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
+      - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
   mail:
     image: bytemark/smtp
     restart: always
