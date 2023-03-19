@@ -26,7 +26,7 @@ services:
   api:
     container_name: api
     image: doodleback
-    command: ["work/application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://pad.tlc.fr:90/"]
+    command: ["./application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://pad.tlc.fr:90/"]
     restart: always
 
   front:

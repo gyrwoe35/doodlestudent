@@ -1,0 +1,24 @@
+FROM ghcr.io/graalvm/graalvm-ce:ol9-java11 AS build-step
+WORKDIR /app
+RUN gu install native-image
+RUN microdnf install git -y
+RUN git clone https://github.com/barais/doodlestudent.git
+WORKDIR /app/doodlestudent/api
+
+RUN mkdir -p /otp/maven
+WORKDIR /opt/maven
+RUN curl -O "https://downloads.apache.org/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.tar.gz" && tar -xvf "apache-maven-3.6.3-bin.tar.gz" && rm "apache-maven-3.6.3-bin.tar.gz"
+
+WORKDIR /app/doodlestudent/api
+RUN /opt/maven/apache-maven-3.6.3/bin/mvn package -Pnative
+
+FROM oraclelinux:9-slim as prod
+WORKDIR /work/
+RUN chown 1001 /work \
+    && chmod "g+rwX" /work \
+    && chown 1001:root /work
+COPY --chown=1001:root --from=build-step /app/doodlestudent/api/target/*-runner /work/application
+EXPOSE 8080
+USER 1001
+
+CMD [ "./application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://pad.tlc.fr:90/" ]

@@ -1,9 +1,19 @@
-FROM node:10-alpine as build-step
+FROM node:16 as build
+
+RUN apt-get -y update
+RUN apt-get install -y git
+
+RUN git clone https://github.com/barais/doodlestudent.git
+
 WORKDIR /app
 COPY package.json /app
-RUN npm install
 COPY . /app
-RUN npm run build -- --outputPath=./dist/out
 
-FROM nginx as prod
-COPY --from=build-step /app/dist/out/ /usr/share/nginx/html
+RUN npm install
+RUN npm install -g @angular/cli@latest
+RUN ng build
+
+FROM nginx
+
+COPY --from=build /app/dist/tlcfront /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/nginx.conf
