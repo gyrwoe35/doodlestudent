@@ -30,7 +30,6 @@ services:
     restart: always
 
   front:
-    container_name: front
     image: doodlefront
     ports:
       - "90:80"
@@ -38,6 +37,11 @@ services:
       - ./exampleconf/doodle.conf:/etc/nginx/conf.d/doodle.conf
       - ./exampleconf/pad.conf:/etc/nginx/conf.d/pad.conf
       - ./exampleconf/myadmin.conf:/etc/nginx/conf.d/myadmin.conf
+    depends_on:
+      - api
+      - db
+      - mail
+      - etherpad
 
   myadmin:
     image: phpmyadmin
