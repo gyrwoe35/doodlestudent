@@ -17,3 +17,5 @@ FROM nginx
 
 COPY --from=build /app/dist/tlcfront /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/nginx.conf
+
+EXPOSE 90

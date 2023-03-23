@@ -4,8 +4,8 @@ services:
     image: mysql
     volumes:
       - ./src/main/resources/db/migration:/docker-entrypoint-initdb.d
-    #ports:
-    #  - "3306:3306"
+    ports:
+      - "3306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=tlc
@@ -13,8 +13,8 @@ services:
       - MYSQL_PASSWORD=tlc
   etherpad:
     image: etherpad/etherpad:1.8
-    #ports:
-    #  - "9001:9001"
+    ports:
+      - "9001:9001"
     volumes:
       - ./APIKEY.txt:/opt/etherpad-lite/APIKEY.txt
   mail:
@@ -26,13 +26,14 @@ services:
   api:
     container_name: api
     image: doodleback
-    command: ["./application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://pad.tlc.fr:90/"]
     restart: always
+    ports: 
+      - "8080:8080"
 
   front:
     image: doodlefront
     ports:
-      - "90:80"
+      - "90:90"
     volumes:
       - ./exampleconf/doodle.conf:/etc/nginx/conf.d/doodle.conf
       - ./exampleconf/pad.conf:/etc/nginx/conf.d/pad.conf

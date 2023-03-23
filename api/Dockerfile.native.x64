@@ -21,4 +21,4 @@ COPY --chown=1001:root --from=build-step /app/doodlestudent/api/target/*-runner 
 EXPOSE 8080
 USER 1001
 
-CMD [ "./application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://pad.tlc.fr:90/" ]
+CMD [ "./application","-Dquarkus.http.host=0.0.0.0","-Dquarkus.datasource.username=tlc","-Dquarkus.datasource.password=tlc","-Dquarkus.datasource.jdbc.url=jdbc:mysql://db:3306/tlc?useUnicode=true&serverTimezone=Europe/Paris","-Ddoodle.internalPadUrl=http://etherpad:9001","-Ddoodle.externalPadUrl=http://localhost:9001/" ]
