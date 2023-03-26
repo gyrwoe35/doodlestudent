@@ -33,6 +33,6 @@ L'api est disponible à l'adresse : http://localhost:8080/
 
 ---
 
-# Architecture de déploiement
+# Docker en local
 
 <img src="pictures/Docker.PNG">
